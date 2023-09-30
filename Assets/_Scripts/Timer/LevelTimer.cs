@@ -4,16 +4,24 @@ using UnityEngine;
 
 namespace _Scripts
 {
-    public class LevelTimer : TimerSubject
+    public class LevelTimer : MonoBehaviour
     {
         [SerializeField] private float _timeInSec;
+        
+        private TimerSubject _timerSubject;
+
+        public void Init(TimerSubject subject)
+        {
+            _timerSubject = subject;
+            StartCoroutine(Timer());
+        }
 
         public void AddTime(float value)
         {
             if (value < 0) throw new ArgumentOutOfRangeException();
             
             _timeInSec += value;
-            Notify(_timeInSec);
+            _timerSubject.Notify(_timeInSec);
         }
 
         public void TakeTime(float value)
@@ -21,21 +29,22 @@ namespace _Scripts
             if (value < 0) throw new ArgumentOutOfRangeException();
             
             _timeInSec -= value;
-            Notify(_timeInSec);
+            _timerSubject.Notify(_timeInSec);
         }
-
+        
         IEnumerator Timer()
         {
             while (true)
             {
                 _timeInSec -= 1;
+                
                 if (_timeInSec <= 0)
                 {
                     
                 }
-
-                Notify(_timeInSec);
-                 
+                
+                _timerSubject.Notify(_timeInSec);
+                Debug.Log(_timeInSec);
                 yield return new WaitForSeconds(1);
             }
         }

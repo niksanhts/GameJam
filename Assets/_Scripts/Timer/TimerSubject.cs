@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace _Scripts
 {
-    public abstract class TimerSubject : MonoBehaviour ,ISubject
+    public class TimerSubject
     {
         private List<ITimerObserver> _observers;
         
-        protected void Notify(float time)
+        public void Notify(float time)
         {
             foreach (var obsever in _observers)
             {
