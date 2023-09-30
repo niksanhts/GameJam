@@ -22,5 +22,7 @@ namespace _Scripts
         {
              _timeText.text = text;
         }
+        
+        
     }
 }

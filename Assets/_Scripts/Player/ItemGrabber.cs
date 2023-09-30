@@ -16,8 +16,8 @@ public class ItemGrabber : MonoBehaviour
     {
         if (_isItemInHands)
         {
- 
             _itemInHands.transform.position = _itemHolder.position;
+            _itemInHands.rotation = Quaternion.LookRotation(transform.forward);
         }
     }
     
