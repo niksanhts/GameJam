@@ -1,4 +1,5 @@
 using System;
+using _Scripts;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerMovement))]
@@ -7,6 +8,8 @@ public class ItemGrabber : MonoBehaviour
     [SerializeField, Range(0, 5)] private float _pickUpRadius;
     [SerializeField, Range(1, 10)] private float _throwingForce;
     [SerializeField] private Transform _itemHolder;
+
+    [SerializeField] private SoundPlayer _soundPlayer;
     
     private Collider[] _itemsAround = new Collider[12];
     private Rigidbody _itemInHands;
@@ -15,10 +18,7 @@ public class ItemGrabber : MonoBehaviour
     private void Update()
     {
         if (_isItemInHands)
-        {
-            _itemInHands.transform.position = _itemHolder.position;
-            _itemInHands.rotation = Quaternion.LookRotation(transform.forward);
-        }
+            KeepItem();
     }
     
     public void FindItemsToPickUp()
@@ -40,17 +40,26 @@ public class ItemGrabber : MonoBehaviour
     {
         if (!_isItemInHands) return;
 
-        _itemInHands.AddForce(transform.forward * _throwingForce, ForceMode.Impulse);
+        _itemInHands.AddForce(transform.forward * _throwingForce, ForceMode.Force);
         _itemInHands = null;
         _isItemInHands = false;
+        
+        _soundPlayer.PlayThrowSound();
     }
     
     private void PickUpItem(Component component)
     {
-
         component.GetComponent<Item>().PickUp();
         _itemInHands = component.gameObject.GetComponent<Rigidbody>();
         _isItemInHands = true;
+        
+        _soundPlayer.PlayPickUpSound();
+    }
+
+    private void KeepItem()
+    {
+        _itemInHands.transform.position = _itemHolder.position;
+        _itemInHands.rotation = Quaternion.LookRotation(transform.forward);
     }
 }
 

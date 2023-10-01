@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using _Scripts;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
 
 [RequireComponent(typeof(PlayerMovement))]
-public class InputHandler : MonoBehaviour
+public class InputHandler : MonoBehaviour, ITimerObserver
 {
     
     private PlayerInput _input;
@@ -40,4 +41,9 @@ public class InputHandler : MonoBehaviour
         return transform.forward * input.y + transform.right * input.x;
     }
 
+    public void React(float time)
+    {
+        if(time == 0)
+            OnDisable();
+    }
 }

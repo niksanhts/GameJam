@@ -21,21 +21,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(Vector3 direction)
     {
-        if (direction != Vector3.zero)
-            Walk(direction);
-        else
-            Stand();
-    }
-
-    private void Stand()
-    {
-        
-    }
-
-    private void Walk(Vector3 direction)
-    {
-        
         _controller.Move(direction * (Time.deltaTime * _speed));
         _rotator.Rotate(direction, _rotationTime);
     }
+    
 }

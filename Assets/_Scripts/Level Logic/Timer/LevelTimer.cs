@@ -38,13 +38,13 @@ namespace _Scripts
             {
                 _timeInSec -= 1;
                 
+                _timerSubject.Notify(_timeInSec);
+
                 if (_timeInSec <= 0)
                 {
-                    
+                    StopCoroutine(Timer());
                 }
                 
-                _timerSubject.Notify(_timeInSec);
-                Debug.Log(_timeInSec);
                 yield return new WaitForSeconds(1);
             }
         }
